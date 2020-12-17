@@ -607,8 +607,9 @@ class StyleGAN:
         # save the images:
         # save_image(samples, img_file, nrow=int(np.sqrt(len(samples))),
         #            normalize=True, scale_each=True, pad_value=128, padding=1)
-        jt.save_image(samples, img_file, nrow=int(np.sqrt(len(samples))),
-                   normalize=True, scale_each=False, pad_value=128, padding=1)
+        # print(samples)
+        jt.save_image_my(samples, img_file, nrow=int(np.sqrt(len(samples))),
+                   normalize=True, scale_each=True, pad_value=128, padding=1)
 
     def train(self, dataset, num_workers, epochs, batch_sizes, fade_in_percentage, logger, output,
               num_samples=36, start_depth=0, feedback_factor=100, checkpoint_factor=1):

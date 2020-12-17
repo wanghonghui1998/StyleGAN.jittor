@@ -1,0 +1,11 @@
+# Config file for color_symbol (7k)
+
+output_dir: '/home/whh/Experiments/StyleGAN/color_symbol_7k/sample_color_64' #'/data/hzh/checkpoints/StyleGAN.pytorch/ckp_celeba_6'
+structure: 'linear'
+device_id: ('4')
+dataset:
+  img_dir: '/home/whh/data/color_symbol_7k' #'/home/hzh/data/img_align_celeba'
+  folder: False
+  resolution: 64
+sched:
+  epochs: [60,120,120,120,240]

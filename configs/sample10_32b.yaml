@@ -1,6 +1,6 @@
 # Config file for CelebA dataset (200k)
 
-output_dir: '/home/whh/Experiments/StyleGAN/color_symbol_7k/test10' #'/data/hzh/checkpoints/StyleGAN.pytorch/ckp_celeba_6'
+output_dir: '/home/whh/Experiments/StyleGAN/color_symbol_7k/test10_b32' #'/data/hzh/checkpoints/StyleGAN.pytorch/ckp_celeba_6'
 structure: 'linear'
 device_id: ('4')
 dataset:
@@ -9,3 +9,4 @@ dataset:
   resolution: 64
 sched:
   epochs: [20,40,40,40,80]
+  batch_sizes: [32,32,32,32,32]

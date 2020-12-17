@@ -3,8 +3,8 @@ import os
 import argparse
 import numpy as np
 
-# import torch
-# from torchvision.utils import save_image
+import torch
+from torchvision.utils import save_image
 import jittor as jt
 
 from models.GAN import Generator
@@ -22,7 +22,7 @@ def parse_arguments():
     parser.add_argument("--generator_file", action="store", type=str,
                         help="pretrained weights file for generator", required=True)
     parser.add_argument("--n_row", action="store", type=int,
-                        default=10, help="number of synchronized grids to be generated")
+                        default=4, help="number of synchronized grids to be generated")
     parser.add_argument("--n_col", action="store", type=int,
                         default=4, help="number of synchronized grids to be generated")
     parser.add_argument("--output_dir", action="store", type=str,
@@ -48,7 +48,7 @@ def adjust_dynamic_range(data, drange_in=(-1, 1), drange_out=(0, 1)):
         bias = (np.float32(drange_out[0]) - np.float32(drange_in[0]) * scale)
         data = data * scale + bias
     # return torch.clamp(data, min=0, max=1)
-    return jt.clamp(data, min=0, max=1)
+    return jt.clamp(data, min_v=0, max_v=1)
 
 
 def main(args):
@@ -93,12 +93,12 @@ def main(args):
         ss_image = gen(point, depth=out_depth, alpha=1)
         # color adjust the generated image:
         ss_image = adjust_dynamic_range(ss_image)
-
+    print("gen done")
     # save the ss_image in the directory
+    # ss_image = torch.from_numpy(ss_image.data)
     # save_image(ss_image, os.path.join(save_path, "grid.png"), nrow=args.n_row,
-    #            normalize=True, scale_each=True, pad_value=128, padding=1)
-    jt.save_image(ss_image, os.path.join(save_path, "grid.png"), nrow=args.n_row,
-               normalize=True, scale_each=True, pad_value=128, padding=1)
+    #             normalize=True, scale_each=True, pad_value=128, padding=1)
+    jt.save_image(ss_image, os.path.join(save_path, "grid.png"), nrow=args.n_row, normalize=True, scale_each=False, pad_value=128, padding=1)
 
     print('Done.')
 

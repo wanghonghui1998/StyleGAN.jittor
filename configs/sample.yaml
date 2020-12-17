@@ -6,6 +6,6 @@ device_id: ('4')
 dataset:
   img_dir: '/home/whh/data/color_symbol_7k' #'/home/hzh/data/img_align_celeba'
   folder: False
-  resolution: 128
+  resolution: 64
 sched:
-  epochs: [2,4,4,4,4,8]
+  epochs: [2,4,4,4,8]

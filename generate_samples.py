@@ -23,7 +23,7 @@ def parse_arguments():
     parser.add_argument("--generator_file", action="store", type=str,
                         help="pretrained weights file for generator", required=True)
     parser.add_argument("--num_samples", action="store", type=int,
-                        default=300, help="number of synchronized grids to be generated")
+                        default=30, help="number of synchronized grids to be generated")
     parser.add_argument("--output_dir", action="store", type=str,
                         default="output/",
                         help="path to the output directory for the frames")
@@ -51,7 +51,7 @@ def adjust_dynamic_range(data, drange_in=(-1, 1), drange_out=(0, 1)):
         bias = (np.float32(drange_out[0]) - np.float32(drange_in[0]) * scale)
         data = data * scale + bias
     # return torch.clamp(data, min=0, max=1)
-    return jt.clamp(data, min=0, max=1)
+    return jt.clamp(data, min_v=0, max_v=1)
 
 
 def main(args):
