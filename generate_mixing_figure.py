@@ -9,7 +9,7 @@ import jittor as jt
 from models.GAN import Generator
 from generate_grid import adjust_dynamic_range
 
-
+jt.flags.use_cuda = 1
 def draw_style_mixing_figure(png, gen, out_depth, src_seeds, dst_seeds, style_ranges):
     n_col = len(src_seeds)
     n_row = len(dst_seeds)
@@ -30,8 +30,8 @@ def draw_style_mixing_figure(png, gen, out_depth, src_seeds, dst_seeds, style_ra
 
         # src_dlatents_np = src_dlatents.numpy()
         # dst_dlatents_np = dst_dlatents.numpy()
-        src_dlatents_np = src_dlatents.data()
-        dst_dlatents_np = dst_dlatents.data()
+        src_dlatents_np = src_dlatents.data
+        dst_dlatents_np = dst_dlatents.data
         canvas = Image.new('RGB', (w * (n_col + 1), h * (n_row + 1)), 'white')
         for col, src_image in enumerate(list(src_images)):
             src_image = adjust_dynamic_range(src_image)
@@ -86,8 +86,11 @@ def main(args):
     # generate the images:
     # src_seeds = [639, 701, 687, 615, 1999], dst_seeds = [888, 888, 888],
     draw_style_mixing_figure(os.path.join('figure03-style-mixing.png'), gen,
-                             out_depth=6, src_seeds=[639, 1995, 687, 615, 1999], dst_seeds=[888, 888, 888],
-                             style_ranges=[range(0, 2)] * 1 + [range(2, 8)] * 1 + [range(8, 14)] * 1)
+                             out_depth=4, src_seeds=[670, 1995, 687, 255, 1999], dst_seeds=[888] * 5,
+                             style_ranges=[range(0, 2)] * 1 + [range(0, 4)] * 1+[range(0, 6)] * 1+[range(0, 8)] * 1+[range(0, 10)] * 1)
+    # draw_style_mixing_figure(os.path.join('figure03-style-mixing.png'), gen,
+    #                          out_depth=4, src_seeds=[670, 1995, 687, 255, 1999], dst_seeds=[888, 888, 888],
+    #                          style_ranges=[range(0, 1)] * 1 + [range(1, 6)] * 1 + [range(6, 10)] * 1)
     print('Done.')
 
 

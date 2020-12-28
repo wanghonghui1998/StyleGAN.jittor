@@ -1,11 +1,11 @@
-from data.datasets import FlatDirectoryImageDataset
+from data.datasets import FlatDirectoryImageDataset, FoldersDistributedDataset
 from data.transforms import get_transform
 
 
 def make_dataset(cfg):
     if cfg.folder:
-        raise NotImplementedError
-        # Dataset = FoldersDistributedDataset
+        # raise NotImplementedError
+        Dataset = FoldersDistributedDataset
     else:
         Dataset = FlatDirectoryImageDataset
 
@@ -36,8 +36,8 @@ def get_data_loader(cfg, batch_size, num_workers):
     )
     ''' 
     if cfg.folder:
-        raise NotImplementedError
-        # Dataset = FoldersDistributedDataset
+        # raise NotImplementedError
+        Dataset = FoldersDistributedDataset
     else:
         Dataset = FlatDirectoryImageDataset
 

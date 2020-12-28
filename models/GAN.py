@@ -602,7 +602,7 @@ class StyleGAN:
         # upsample the image
         if scale_factor > 1:
             # samples = interpolate(samples, scale_factor=scale_factor)
-            samples = nn.interpolate(samples, scale_factor=scale_factor)
+            samples = nn.interpolate(samples, scale_factor=scale_factor, mode='nearest')
 
         # save the images:
         # save_image(samples, img_file, nrow=int(np.sqrt(len(samples))),

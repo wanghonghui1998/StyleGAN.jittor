@@ -3,13 +3,13 @@ import os
 import argparse
 import numpy as np
 
-import torch
-from torchvision.utils import save_image
+# import torch
+# from torchvision.utils import save_image
 import jittor as jt
 
 from models.GAN import Generator
 
-
+jt.flags.use_cuda = 1
 def parse_arguments():
     """
     default command line argument parser
@@ -26,7 +26,7 @@ def parse_arguments():
     parser.add_argument("--n_col", action="store", type=int,
                         default=4, help="number of synchronized grids to be generated")
     parser.add_argument("--output_dir", action="store", type=str,
-                        default="output/",
+                        default="./",
                         help="path to the output directory for the frames")
 
     args = parser.parse_args()
@@ -46,7 +46,7 @@ def adjust_dynamic_range(data, drange_in=(-1, 1), drange_out=(0, 1)):
         scale = (np.float32(drange_out[1]) - np.float32(drange_out[0])) / (
                 np.float32(drange_in[1]) - np.float32(drange_in[0]))
         bias = (np.float32(drange_out[0]) - np.float32(drange_in[0]) * scale)
-        data = data * scale + bias
+        data = data * jt.array(scale) + jt.array(bias)
     # return torch.clamp(data, min=0, max=1)
     return jt.clamp(data, min_v=0, max_v=1)
 
@@ -86,10 +86,11 @@ def main(args):
     # with torch.no_grad():
     with jt.no_grad():
         # point = torch.randn(args.n_row * args.n_col, latent_size)
+        np.random.seed(1000)
         point = np.random.randn(args.n_row * args.n_col, latent_size)
         # point = (point / point.norm()) * (latent_size ** 0.5)
         point = (point / np.linalg.norm(point)) * (latent_size ** 0.5)
-        point = jt.array(point)
+        point = jt.array(point, dtype='float32')
         ss_image = gen(point, depth=out_depth, alpha=1)
         # color adjust the generated image:
         ss_image = adjust_dynamic_range(ss_image)
@@ -98,7 +99,7 @@ def main(args):
     # ss_image = torch.from_numpy(ss_image.data)
     # save_image(ss_image, os.path.join(save_path, "grid.png"), nrow=args.n_row,
     #             normalize=True, scale_each=True, pad_value=128, padding=1)
-    jt.save_image(ss_image, os.path.join(save_path, "grid.png"), nrow=args.n_row, normalize=True, scale_each=False, pad_value=128, padding=1)
+    jt.save_image_my(ss_image, os.path.join(save_path, "grid.png"), nrow=args.n_row, normalize=True, scale_each=True, pad_value=128, padding=1)
 
     print('Done.')
 

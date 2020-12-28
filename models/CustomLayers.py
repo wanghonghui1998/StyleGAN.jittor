@@ -326,7 +326,7 @@ class LayerEpilogue(nn.Module):
         if use_pixel_norm:
             layers.append(('pixel_norm', PixelNormLayer()))
         if use_instance_norm:
-            layers.append(('instance_norm', nn.InstanceNorm2d(channels)))
+            layers.append(('instance_norm', nn.InstanceNorm2d(channels, affine=True)))
 
         self.top_epi = nn.Sequential(OrderedDict(layers))
 

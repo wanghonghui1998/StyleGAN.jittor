@@ -16,7 +16,7 @@ cfg.ema_decay = 0.999
 cfg.num_works = 4
 cfg.num_samples = 36
 cfg.feedback_factor = 10
-cfg.checkpoint_factor = 10
+cfg.checkpoint_factor = 20
 
 # ---------------------------------------------------------------------------- #
 # Options for scheduler
