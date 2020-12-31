@@ -68,6 +68,7 @@ def main(args):
     from config import cfg as opt
 
     opt.merge_from_file(args.config)
+    opt.model.gen.use_noise=False
     opt.freeze()
 
     print("Creating generator object ...")
@@ -85,9 +86,17 @@ def main(args):
     # path for saving the files:
     # generate the images:
     # src_seeds = [639, 701, 687, 615, 1999], dst_seeds = [888, 888, 888],
-    draw_style_mixing_figure(os.path.join('figure03-style-mixing.png'), gen,
-                             out_depth=4, src_seeds=[670, 1995, 687, 255, 1999], dst_seeds=[888] * 5,
-                             style_ranges=[range(0, 2)] * 1 + [range(0, 4)] * 1+[range(0, 6)] * 1+[range(0, 8)] * 1+[range(0, 10)] * 1)
+    
+    # src_seeds = [i for i in range(200)]
+    # src_seeds = [166, 1721, 1181, 21, 239]
+    # dst_seeds = [284, 2310, 1140, 255, 626]
+    src_seeds = [166, 1721, 1181, 255, 239, 284, 2310, 1140]
+    dst_seeds =[21] * 6 
+
+
+    draw_style_mixing_figure(args.output, gen,
+                             out_depth=5, src_seeds=src_seeds, dst_seeds=dst_seeds,
+                             style_ranges=[range(0, 2)] * 1 + [range(0, 4)] * 1+[range(0, 6)] * 1+[range(0, 8)] * 1+[range(0, 10)] * 1 + [range(0, 12)]*1)
     # draw_style_mixing_figure(os.path.join('figure03-style-mixing.png'), gen,
     #                          out_depth=4, src_seeds=[670, 1995, 687, 255, 1999], dst_seeds=[888, 888, 888],
     #                          style_ranges=[range(0, 1)] * 1 + [range(1, 6)] * 1 + [range(6, 10)] * 1)
@@ -105,6 +114,9 @@ def parse_arguments():
     parser.add_argument('--config', default='./configs/sample_race_256.yaml')
     parser.add_argument("--generator_file", action="store", type=str,
                         help="pretrained weights file for generator", required=True)
+    parser.add_argument("--output", action="store", type=str,
+                        default="./output/color128-style-mixing.png",
+                        help="path to the output path for the frames")
 
     args = parser.parse_args()
 

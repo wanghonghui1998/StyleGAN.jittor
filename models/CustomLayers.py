@@ -282,6 +282,7 @@ class NoiseLayer(nn.Module):
         # self.weight = jt.zeros(channels)
         self.weight = init.constant([channels], 'float32', 0.0)
         self.noise = None
+        
 
     def execute(self, x, noise=None):
         if noise is None and self.noise is None:
@@ -326,7 +327,7 @@ class LayerEpilogue(nn.Module):
         if use_pixel_norm:
             layers.append(('pixel_norm', PixelNormLayer()))
         if use_instance_norm:
-            layers.append(('instance_norm', nn.InstanceNorm2d(channels, affine=True)))
+            layers.append(('instance_norm', nn.InstanceNorm2d(channels, affine=False)))
 
         self.top_epi = nn.Sequential(OrderedDict(layers))
 

@@ -97,7 +97,7 @@ class FoldersDistributedDataset(dataset.Dataset):
             for file_name in file_names:
                 possible_file = os.path.join(file_path, file_name)
                 if os.path.isfile(possible_file):
-                    print(possible_file)
+                    # print(possible_file)
                     files.append(possible_file)
 
         # return the files list
@@ -117,7 +117,7 @@ class FoldersDistributedDataset(dataset.Dataset):
         # setup the files for reading
         self.files = self.__setup_files()
         self.total_len = len(self.files)
-        print(self.total_len)
+        # print(self.total_len)
         # this function must be called
         self.set_attrs(total_len = self.total_len)
     '''
